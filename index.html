@@ -263,7 +263,7 @@ label{
 
 <input type="file" id="importFile" accept=".json,.lyricsproj">
 <button onclick="importProject()">Import Project</button>
-<button onclick="pasteProject()">Paste Import</button>
+<button onclick="pasteProject()" class="hiddenBtn" >Paste Import</button>
 
 <input id="projectName" placeholder="Project name">
 
@@ -282,7 +282,10 @@ label{
 <button onclick="importProject()">Import Project</button>
 <br><br>
 <button onclick="exportProject()">Export File</button>
-<button onclick="copyProject()">Copy Data</button>
+<button onclick="copyProject()" class="hiddenBtn" >Copy Data</button>
+    <button onclick="shareToCreator()">
+    Share To Creator
+</button>
 
 <textarea id="input"></textarea><br>
 
@@ -467,6 +470,38 @@ let tapCount = 0;
 let lastTapTime = 0;
 let tapTimeout = null;
 
+function shareToCreator(){
+
+    let ok = confirm(
+        "NOTE:\n\n" +
+        "Pressing OK will open Gmail.\n\n" +
+        "Please:\n" +
+        "• Attach the exported save file (.json)\n" +
+        "• Add your name for credits\n" +
+        "• Do not remove the project name from the subject\n\n" +
+        "Press OK to continue."
+    );
+
+    if(!ok) return;
+
+    let projectName = currentProject || "Untitled Project";
+
+    let subject = encodeURIComponent(
+        "Project Submission - " + projectName
+    );
+
+    let body = encodeURIComponent(
+        "Name: \n\n" +
+        "Project: " + projectName + "\n\n" +
+        "Please attach your exported project file before sending."
+    );
+
+    window.location.href =
+        "mailto:ihhhighlighted@gmail.com" +
+        "?subject=" + subject +
+        "&body=" + body;
+}
+    
 function applySelectedFont(){
 
     let font = document.getElementById("fontSelect").value;
@@ -640,7 +675,7 @@ lyricsBox.addEventListener("pointerdown", (e) => {
             undo();
         }
         else if(tapCount === 4){
-            toggleMode();
+            undo();
         }
 
         tapCount = 0;
