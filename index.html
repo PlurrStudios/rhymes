@@ -470,37 +470,7 @@ let tapCount = 0;
 let lastTapTime = 0;
 let tapTimeout = null;
 
-function shareToCreator(){
 
-    let ok = confirm(
-        "NOTE:\n\n" +
-        "Pressing OK will open Gmail.\n\n" +
-        "Please:\n" +
-        "• Attach the exported save file (.json)\n" +
-        "• Add your name for credits\n" +
-        "• Do not remove the project name from the subject\n\n" +
-        "Press OK to continue."
-    );
-
-    if(!ok) return;
-
-    let projectName = currentProject || "Untitled Project";
-
-    let subject = encodeURIComponent(
-        "Project Submission - " + projectName
-    );
-
-    let body = encodeURIComponent(
-        "Name: \n\n" +
-        "Project: " + projectName + "\n\n" +
-        "Please attach your exported project file before sending."
-    );
-
-    window.location.href =
-        "mailto:ihhhighlighted@gmail.com" +
-        "?subject=" + subject +
-        "&body=" + body;
-}
     
 function applySelectedFont(){
 
@@ -1860,6 +1830,41 @@ function exportProject(){
     a.download = currentProject + ".lyricsproj";
 
     a.click();
+}
+
+function shareToCreator(){
+    
+    let ok = confirm(
+        "NOTE:\n\n" +
+        "Pressing OK will automatically download the project file and open Gmail.\n\n" +
+
+        "Please:\n" +
+        "• Attach the exported save file (.json)\n" +
+        "• Add your name for credits\n" +
+        "• Do not remove the project name from the subject\n\n" +
+        "Press OK to continue."
+    );
+
+    if(!ok) return;
+
+    exportProject();
+
+    let projectName = currentProject || "Untitled Project";
+
+    let subject = encodeURIComponent(
+        "Project Submission - " + projectName
+    );
+
+    let body = encodeURIComponent(
+        "Name: \n\n" +
+        "Project: " + projectName + "\n\n" +
+        "Please attach your exported project file before sending."
+    );
+
+    window.location.href =
+        "mailto:ihhhighlighted@gmail.com" +
+        "?subject=" + subject +
+        "&body=" + body;
 }
 
 function importProject(){
